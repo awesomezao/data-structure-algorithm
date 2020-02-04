@@ -1,0 +1,22 @@
+{
+  "scripts": {
+    "dev": "nodemon --config nodemon.json",
+    "test": "jest",
+    "coverage":"jest --coverage",
+    "test-watch":"jest --watchAll"
+  },
+  "dependencies": {
+    "@types/jest": "^25.1.1",
+    "nodemon": "^2.0.2",
+    "ts-node": "^8.6.2",
+    "tslint": "^6.0.0",
+    "typescript": "^3.7.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-typescript": "^7.8.3",
+    "babel-jest": "^25.1.0",
+    "jest": "^25.1.0"
+  }
+}

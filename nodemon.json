@@ -1,0 +1,20 @@
+{
+  "verbose": false,
+  "debug": false,
+  "exec": "node -r ts-node/register ./test.ts",
+  "ignore": [
+    "node_modules",
+    "test",
+    "**/*.d.ts",
+    "*.test.ts",
+    "*.spec.ts",
+    "test/**/*"
+  ],
+  "events": {
+    "restart": ""
+  },
+  "watch": ["./sort-algorithm", "./data-structure", "package.json", "tsconfig.json","test.ts"],
+  "ext": "ts",
+  "inspect": true,
+  "delay": "2500"
+}

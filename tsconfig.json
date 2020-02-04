@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2015",
+    "noImplicitAny": false,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+  },
+  "include": [
+    "data-structure/**/*",
+    "sort-algorithm/**/*",
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
