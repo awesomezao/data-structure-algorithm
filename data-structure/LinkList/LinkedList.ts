@@ -13,9 +13,12 @@ interface IlinkedList<T> {
   remove: (element: T) => T;
   removeAt: (index: number) => T;
   indexOf: (element: T) => number;
+  getElementAt: (index: number) => IlNode<T> | undefined
+  getHead: () => T;
   isEmpty: () => boolean;
   size: () => number;
   toString: () => string;
+  clear: () => void;
 }
 
 class LNode<T> implements IlNode<T> {
@@ -27,12 +30,9 @@ class LNode<T> implements IlNode<T> {
   }
 }
 
-class LinkedList<T> implements IlinkedList<T> {
-  constructor(protected length: number, protected head: IlNode<T>) {
-    // 初始化链表长度和头部指针
-    this.length = 0;
-    this.head = null;
-  }
+export default class LinkedList<T> implements IlinkedList<T> {
+  protected length:number = 0
+  protected head:IlNode<T>=null
   // 1. 添加节点
   append(element: T) {
     const _node= new LNode(element)
@@ -81,15 +81,82 @@ class LinkedList<T> implements IlinkedList<T> {
     }    
    }
   // 3. 根据元素,移除节点
-  remove() {}
+  remove(element: T) {
+    const index = this.indexOf(element)
+    return this.removeAt(index)
+  }
   // 4. 根据元素位置,移除节点
-  removeAt() {}
+  removeAt(position: number) {
+    // 边界检查
+    if (position >=0 && position < this.length) {
+      let current = this.head
+      if (position === 0) {
+        // 将head节点移除,this.head=null
+        this.head=current.next
+      } else {
+        const previous = this.getElementAt(position - 1)
+        current = previous.next
+        previous.next=current.next
+      }
+      this.length--
+      return current.element
+    } else {
+      return undefined
+    }
+  }
   // 5. 返回元素索引
-  indexOf() {}
-  // 6. 判断链表是否为空
-  isEmpty() {}
-  // 7. 返回链表的size
-  size() {}
-  // 8. 返回字符串形式的链表
-  toString() {}
+  indexOf(element:T) {
+    let current = this.head
+    let index=0
+    while (current) {
+      if (element === current.element) {
+        return index
+      }
+      index++
+      current=current.next
+    }
+    return -1
+  }
+  // 6. 根据索引查询元素
+  getElementAt(index: number) {
+    if (index >= 0 && index <= this.length) {
+      let current = this.head;
+      for (let i = 0; i < index&&current!=null; i++) {
+        current=current.next
+      }
+      return current
+    } else {
+      return undefined
+    }
+  }
+  // 7. 判断链表是否为空
+  isEmpty() {
+    return this.size()===0
+  }
+  // 8. 返回链表的size
+  size() {
+    return this.length
+  }
+  // 9. 返回字符串形式的链表
+  toString() { 
+    if (this.head === null) {
+      return ''
+    }
+    let nodeString = `${this.head.element}`
+    let current = this.head.next
+    for (let i = 0; i < this.size()&&current!=null; i++) {
+      nodeString=`${nodeString},${current.element}`
+      current=current.next
+    }
+    return nodeString
+  }
+  // 10. 返回头部元素
+  getHead(){
+  return this.head===null?undefined:this.head.element
+  }
+  // 11. 清除所有元素
+  clear() {
+    this.head = null
+    this.length=0
+  }
 }
