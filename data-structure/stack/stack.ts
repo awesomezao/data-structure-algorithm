@@ -2,23 +2,23 @@
  * @class Stack
  */
 
-interface Istack {
-  push: <T>(element: T) => void;
-  pop: () => any;
-  peek: () => any;
+interface Istack<T> {
+  push: (element: T) => void;
+  pop: () => T;
+  peek: () => T;
   isEmpty: () => boolean;
   size: () => number;
   toString: () => string;
 }
 
-export default class Stack implements Istack {
+export default class Stack<T> implements Istack<T> {
   // 当前栈
-  protected _stack: any[];
+  protected _stack: T[];
   constructor() {
     this._stack = [];
   }
   // 1. 压栈
-  push(element: any) {
+  push(element: T) {
     this._stack.push(element);
   }
   // 2. 返回出栈的元素
@@ -40,7 +40,7 @@ export default class Stack implements Istack {
   // 6.返回以字符串结构的栈元素
   toString() {
     let _result: string = '';
-    this._stack.forEach((item: any) => (_result += item + ''));
+    this._stack.forEach((item: T) => (_result += item + ''));
     return _result;
   }
 }

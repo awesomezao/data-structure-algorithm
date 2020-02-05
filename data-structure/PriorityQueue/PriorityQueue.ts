@@ -2,36 +2,36 @@
  * @class PriorityQueue
  */
 
-interface IpriorityQueue {
-  enqueue: <T>(element: T, priority: number) => void;
-  dequeue: () => any;
-  front: () => any;
-  isEmpty: () => boolean;
-  size: () => number;
-  toString: () => string;
-}
-
 // 优先级队列元素节点
-interface IqueueElement {
-  element: any;
+interface IqueueElement <T>{
+  element: T;
   priority: number;
 }
-class QueueElement implements IqueueElement {
-  element: any;
+class QueueElement<T> implements IqueueElement<T> {
+  element: T;
   priority: number;
-  constructor(element: any, priority: number) {
+  constructor(element: T, priority: number) {
     this.element = element;
     this.priority = priority;
   }
 }
 
-export default class Queue implements IpriorityQueue {
-  private _queue: IqueueElement[];
+interface IpriorityQueue <T>{
+  enqueue: (element: T, priority: number) => void;
+  dequeue: () => IqueueElement<T>;
+  front: () => IqueueElement<T>;
+  isEmpty: () => boolean;
+  size: () => number;
+  toString: () => string;
+}
+
+export default class Queue <T> implements IpriorityQueue<T> {
+  private _queue: IqueueElement<T>[];
   constructor() {
     this._queue = [];
   }
   // 1. 将元素添加到队列尾部
-  enqueue(element: any, priority: number) {
+  enqueue(element: T, priority: number) {
     // 创建QueueElement节点对象
     const _queueElement = new QueueElement(element, priority);
     if (this._queue.length === 0) {
@@ -69,7 +69,7 @@ export default class Queue implements IpriorityQueue {
   // 6. 返回字符串格式的队列
   toString() {
     let _result: string = '';
-    this._queue.forEach((item:IqueueElement) => (_result += `${item.element}[${item.priority}]`));
+    this._queue.forEach((item:IqueueElement<T>) => (_result += `${item.element}[${item.priority}]`));
     return _result;
   }
 }

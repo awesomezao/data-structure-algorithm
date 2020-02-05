@@ -2,7 +2,7 @@ import PriorityQueue from './PriorityQueue';
 
 
 describe('test PriorityQueue', () => {
-  let testPriorityQueue: PriorityQueue;
+  let testPriorityQueue: PriorityQueue<number>;
   beforeEach(() => {
     testPriorityQueue = new PriorityQueue();
   });

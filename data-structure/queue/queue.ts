@@ -2,21 +2,21 @@
  * @class Queue
  */
 
-interface Iqueue{
-  enqueue: <T>(element: T) => void;
-  dequeue: () => any;
-  front: () => any;
+ interface Iqueue<T>{
+  enqueue: (element: T) => void;
+  dequeue: () => T;
+  front: () => T;
   isEmpty: () => boolean;
   size: () => number;
   toString: () => string;
 }
-export default class Queue implements Iqueue{
-  protected _queue: any[]
+export default class Queue <T>implements Iqueue<T>{
+  protected _queue: T[]
   constructor() {
     this._queue=[]
   }
   // 1. 将元素添加到队列尾部
-  enqueue(element: any) {
+  enqueue(element: T) {
     this._queue.push(element)
   }
   // 2. 删除队列首部元素
@@ -38,7 +38,7 @@ export default class Queue implements Iqueue{
   // 6. 返回字符串格式的队列
   toString() {
     let _result: string = ''
-    this._queue.forEach((item: any) => _result += item + '')
+    this._queue.forEach((item: T) => _result += item + '')
     return _result
   }
  }

@@ -2,7 +2,7 @@ import Queue from './queue';
 
 
 describe('test Queue', () => {
-  let testQueue: Queue;
+  let testQueue: Queue<number>;
   beforeEach(() => {
     testQueue = new Queue();
   });
