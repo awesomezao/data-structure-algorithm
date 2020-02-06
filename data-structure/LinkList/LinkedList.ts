@@ -10,6 +10,7 @@ interface IlNode<T> {
 interface IlinkedList<T> {
   append: (element: T) => void;
   insert: (position: number, element: T) => boolean;
+  update: (position:number,element:T) => T;
   remove: (element: T) => T;
   removeAt: (index: number) => T;
   indexOf: (element: T) => number;
@@ -79,13 +80,19 @@ export default class LinkedList<T> implements IlinkedList<T> {
     } else {
       return false
     }    
-   }
-  // 3. 根据元素,移除节点
+  }
+  // 3. 修改节点元素
+  update(position:number,element:T) {
+    let target = this.getElementAt(position)
+    target.element = element
+    return target.element
+  }
+  // 4. 根据元素,移除节点
   remove(element: T) {
     const index = this.indexOf(element)
     return this.removeAt(index)
   }
-  // 4. 根据元素位置,移除节点
+  // 5. 根据元素位置,移除节点
   removeAt(position: number) {
     // 边界检查
     if (position >=0 && position < this.length) {
@@ -104,7 +111,7 @@ export default class LinkedList<T> implements IlinkedList<T> {
       return undefined
     }
   }
-  // 5. 返回元素索引
+  // 6. 返回元素索引
   indexOf(element:T) {
     let current = this.head
     let index=0
@@ -117,7 +124,7 @@ export default class LinkedList<T> implements IlinkedList<T> {
     }
     return -1
   }
-  // 6. 根据索引查询元素
+  // 7. 根据索引查询元素
   getElementAt(index: number) {
     if (index >= 0 && index <= this.length) {
       let current = this.head;
@@ -129,15 +136,15 @@ export default class LinkedList<T> implements IlinkedList<T> {
       return undefined
     }
   }
-  // 7. 判断链表是否为空
+  // 8. 判断链表是否为空
   isEmpty() {
     return this.size()===0
   }
-  // 8. 返回链表的size
+  // 9. 返回链表的size
   size() {
     return this.length
   }
-  // 9. 返回字符串形式的链表
+  // 10. 返回字符串形式的链表
   toString() { 
     if (this.head === null) {
       return ''
@@ -150,11 +157,11 @@ export default class LinkedList<T> implements IlinkedList<T> {
     }
     return nodeString
   }
-  // 10. 返回头部元素
+  // 11. 返回头部元素
   getHead(){
   return this.head===null?undefined:this.head.element
   }
-  // 11. 清除所有元素
+  // 12. 清除所有元素
   clear() {
     this.head = null
     this.length=0

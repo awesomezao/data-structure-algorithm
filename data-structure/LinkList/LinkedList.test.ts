@@ -47,6 +47,14 @@ describe('test LinkedList', () => {
     expect(testLinkedList.toString()).toBe('123,10,11,9,13')
     expect(testLinkedList.size()).toBe(5)
   });
+  test('update node', () => {
+    testLinkedList.append(10);
+    testLinkedList.append(11);
+    testLinkedList.append(9);
+    expect(testLinkedList.getElementAt(2).element).toBe(9)
+    expect(testLinkedList.update(2, 12)).toBe(12)
+    expect(testLinkedList.getElementAt(2).element).toBe(12)
+  });
   test('remove element', () => {
     testLinkedList.append(10);
     testLinkedList.append(11);
