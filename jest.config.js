@@ -1,12 +1,16 @@
 module.exports = {
   roots: ['<rootDir>'],
   verbose: false,
-  collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}', '!src/**/*.d.ts'],
+  collectCoverageFrom: [
+    'data-structure/**/*.{js,ts}',
+    'sort-algorithm/**/*.{js,ts}',
+    '!src/**/*.d.ts'
+  ],
   testMatch: [
-    '<rootDir>/data-structure/**/__tests__/**/*.{js,jsx,ts,tsx}',
-    '<rootDir>/sort-algorithm/**/__tests__/**/*.{js,jsx,ts,tsx}',
-    '<rootDir>/data-structure/**/*.{spec,test}.{js,jsx,ts,tsx}',
-    '<rootDir>/sort-algorithm/**/*.{spec,test}.{js,jsx,ts,tsx}'
+    '<rootDir>/data-structure/**/__tests__/**/*.{js,ts}',
+    '<rootDir>/sort-algorithm/**/__tests__/**/*.{js,ts}',
+    '<rootDir>/data-structure/**/*.{spec,test}.{js,ts}',
+    '<rootDir>/sort-algorithm/**/*.{spec,test}.{js,ts}'
   ],
   transformIgnorePatterns: [
     '[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$',

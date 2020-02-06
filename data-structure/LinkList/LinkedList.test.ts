@@ -73,6 +73,7 @@ describe('test LinkedList', () => {
     expect(testLinkedList.size()).toBe(2)
     expect(testLinkedList.toString()).toBe('10,11')
     expect(testLinkedList.removeAt(10)).toBeUndefined()
+    expect(testLinkedList.removeAt(0)).toBe(10)
   });
    test('indexOf element', () => {
      testLinkedList.append(10);
@@ -86,6 +87,7 @@ describe('test LinkedList', () => {
     testLinkedList.append(11);
     testLinkedList.append(9);
     expect(testLinkedList.getElementAt(0).element).toBe(10)
+    expect(testLinkedList.getElementAt(12)).toBeUndefined()
   });
   test('getHead', () => {
     expect(testLinkedList.getHead()).toBeUndefined()

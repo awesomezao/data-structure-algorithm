@@ -24,8 +24,9 @@ describe('test PriorityQueue', () => {
     testPriorityQueue.enqueue(3, 3);
     testPriorityQueue.enqueue(2, 2);
     testPriorityQueue.enqueue(1, 1);
+    testPriorityQueue.enqueue(4, 4);
     expect(testPriorityQueue.isEmpty()).toBeFalsy();
-    expect(testPriorityQueue.size()).toBe(3);
+    expect(testPriorityQueue.size()).toBe(4);
   });
   test('element dequeue', () => {
     testPriorityQueue.enqueue(3, 3);

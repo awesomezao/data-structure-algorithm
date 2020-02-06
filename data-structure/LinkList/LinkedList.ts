@@ -98,7 +98,7 @@ export default class LinkedList<T> implements IlinkedList<T> {
     if (position >=0 && position < this.length) {
       let current = this.head
       if (position === 0) {
-        // 将head节点移除,this.head=null
+        // 将head节点后移
         this.head=current.next
       } else {
         const previous = this.getElementAt(position - 1)
