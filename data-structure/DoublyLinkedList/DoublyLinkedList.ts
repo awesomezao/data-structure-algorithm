@@ -1,53 +1,54 @@
 /**
- * @class LinkedList
+ * @class DoublyLinkedList
  */
 
-export interface IlNode<T> {
+export interface IdNode<T> {
   element: T;
-  next: IlNode<T> | null;
+  prev: IdNode<T> | null;
+  next: IdNode<T> | null;
 }
 
-interface IlinkedList<T> {
+interface IdoublyLinkedList<T> {
   append: (element: T) => void;
   insert: (position: number, element: T) => boolean;
   update: (position: number, element: T) => T;
   remove: (element: T) => T|undefined;
   removeAt: (index: number) => T|undefined;
   indexOf: (element: T) => number;
-  getElementAt: (index: number) => IlNode<T> | undefined;
-  getHead: () => T|undefined;
+  getElementAt: (index: number) => IdNode<T> | undefined;
+  getHead: () => T | undefined;
+  getTail: () => T | undefined;
   isEmpty: () => boolean;
   size: () => number;
-  toString: () => string;
+  toString: (reverse:boolean) => string;
   clear: () => void;
 }
 
-export class LNode<T> implements IlNode<T> {
+export class DNode<T> implements IdNode<T> {
   element: T;
-  next: IlNode<T> | null;
+  prev: IdNode<T> | null;
+  next: IdNode<T> | null;
   constructor(element: T) {
     this.element = element;
+    this.prev = null;
     this.next = null;
   }
 }
 
-export default class LinkedList<T> implements IlinkedList<T> {
+export default class DoublyLinkedList<T> implements IdoublyLinkedList<T> {
   protected length: number = 0;
-  protected head: IlNode<T> = null;
+  protected head: IdNode<T> = null;
+  protected tail: IdNode<T> = null;
   // 1. 添加节点
   append(element: T) {
-    const newNode = new LNode(element);
-    let current: IlNode<T>;
+    const newNode = new DNode(element);
     if (this.head === null) {
       this.head = newNode;
+      this.tail = newNode;
     } else {
-      current = this.head;
-      // 循环链表,将current指向最后一个节点
-      while (current.next) {
-        current = current.next;
-      }
-      // 将节点添加到最后一个元素的next位置,完成后,最后一个元素的next为null
-      current.next = newNode;
+      this.tail.next = newNode;
+      newNode.prev = this.tail;
+      this.tail = newNode;
     }
     // 更新链表长度
     this.length++;
@@ -56,25 +57,40 @@ export default class LinkedList<T> implements IlinkedList<T> {
   insert(position: number, element: T) {
     // 边界检查
     if (position >= 0 && position <= this.length) {
-      const newNode = new LNode(element);
-      let current: IlNode<T> = this.head;
-      let previous: IlNode<T>;
-      let index: number = 0;
+      const newNode = new DNode(element);
       // 若插入位置在0
       if (position === 0) {
-        newNode.next = current;
-        this.head = newNode;
-      } else {
-        // 循环链表,找到要插入的位置
-        while (index++ < position) {
-          // 断链
-          previous = current;
-          current = current.next;
+        // 判断链表是否为空
+        if (this.head === null) {
+          this.head = newNode;
+          this.tail = newNode;
+        } else {
+          this.head.prev = newNode;
+          newNode.next = this.head;
+          this.head = newNode;
         }
-        // 链接
+      }
+      // 若添加位置在末尾
+      else if (position === this.length) {
+        this.tail.next = newNode;
+        newNode.prev = this.tail;
+        this.tail = newNode;
+      }
+      // 在中间位置添加
+      else {
+        let current: IdNode<T> = this.head;
+        let index: number = 0;
+        let previous: IdNode<T> = null;
+        while (index++<position) {
+          previous = current
+          current=current.next
+        }
         newNode.next = current;
+        newNode.prev = previous;
+        current.prev = newNode;
         previous.next = newNode;
       }
+      // 更新链表长度
       this.length++;
       return true;
     } else {
@@ -89,6 +105,8 @@ export default class LinkedList<T> implements IlinkedList<T> {
   }
   // 4. 根据元素,移除节点
   remove(element: T) {
+    console.log(element)
+    
     const index = this.indexOf(element);
     return this.removeAt(index);
   }
@@ -97,13 +115,34 @@ export default class LinkedList<T> implements IlinkedList<T> {
     // 边界检查
     if (position >= 0 && position < this.length) {
       let current = this.head;
+      // 若移除位置在0
       if (position === 0) {
-        // 将head节点后移
-        this.head = current.next;
-      } else {
-        const previous = this.getElementAt(position - 1);
-        current = previous.next;
+        // 若只有一个节点
+        if (this.length === 1) {
+          this.head = null;
+          this.tail = null;
+        } else {
+          this.head = this.head.next;
+          this.head.prev=null
+       }
+      }
+      // 若移除位置在尾
+      else if (position === this.length - 1) {
+        current = this.tail;
+        this.tail = this.tail.prev;
+        this.tail.next=null
+      }
+      // 若移除位置在中间
+      else {
+        let index: number = 0;
+        let previous: IdNode<T> = null;
+        while (index++<position) {
+          previous = current;
+          current=current.next
+        }
         previous.next = current.next;
+        // current=current.next
+        current.next.prev=previous
       }
       this.length--;
       return current.element;
@@ -145,15 +184,16 @@ export default class LinkedList<T> implements IlinkedList<T> {
     return this.length;
   }
   // 10. 返回字符串形式的链表
-  toString() {
+  toString(reverse:boolean=false) {
     if (this.head === null) {
       return '';
     }
-    let nodeString = `${this.head.element}`;
-    let current = this.head.next;
+    let nodeString = `${!reverse ? this.head.element : this.tail.element}`;
+    let current = !reverse ? this.head.next : this.tail.prev;
+    
     for (let i = 0; i < this.size() && current != null; i++) {
       nodeString = `${nodeString},${current.element}`;
-      current = current.next;
+      current =!reverse?current.next:current.prev;
     }
     return nodeString;
   }
@@ -161,9 +201,14 @@ export default class LinkedList<T> implements IlinkedList<T> {
   getHead() {
     return this.head === null ? undefined : this.head.element;
   }
+  // 12. 返回尾部元素
+  getTail() {
+    return this.tail === null ? undefined : this.tail.element;
+  }
   // 12. 清除所有元素
   clear() {
     this.head = null;
+    this.tail = null;
     this.length = 0;
   }
 }
